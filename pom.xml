@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>citrus-test</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <slf4j.version>1.7.29</slf4j.version>
+        <testng.version>7.1.0</testng.version>
+        <citrus.version>3.0.0-M1</citrus.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>ru.lanit.generator</groupId>
+                <artifactId>generator-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-tests</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>generate-tests</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <framework>testng</framework>
+                    <isCoverage>true</isCoverage>
+                    <buildDirectory>${project.basedir}/src/test</buildDirectory>
+                    <tests>
+                        <test>
+                            <endpoint>httpClient</endpoint>
+                            <author>Unknown</author>
+                            <swagger>
+                                <file>file:${project.basedir}\src\test\resources\petstore.json</file>
+                            </swagger>
+                        </test>
+                    </tests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.13.3</version>
+        </dependency>
+
+        <!-- Test scoped dependencies -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Citrus -->
+        <dependency>
+            <groupId>com.consol.citrus</groupId>
+            <artifactId>citrus-core</artifactId>
+            <version>${citrus.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.consol.citrus</groupId>
+            <artifactId>citrus-java-dsl</artifactId>
+            <version>${citrus.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.consol.citrus</groupId>
+            <artifactId>citrus-http</artifactId>
+            <version>${citrus.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ru.lanit</groupId>
+            <artifactId>citrus-swagger-coverage</artifactId>
+            <version>1.0.4</version>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>citrus-coverage-mvn-repo</id>
+            <url>https://raw.github.com/lanit-izh/citrus-coverage/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>
